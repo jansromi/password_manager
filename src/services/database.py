@@ -32,11 +32,9 @@ class Database:
         try:
             # find path this code is executing in
             script_dir = os.path.dirname(os.path.abspath(__file__))
-            # find path to parent directory. for now we make 
-            # the heavy assumption that there hasnt been any subdirectories
-            # between the parent directory and the current directory
-            # TODO: make this more robust (recursion?)
             parent_dir = os.path.dirname(script_dir)
+            parent_dir = os.path.dirname(parent_dir)
+            
             # ie. projectroot/bin
             bin_dir = os.path.join(parent_dir, 'bin')
             # if there is a config-file, it should be in bin directory
