@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import npyscreen, curses, databaseHandler
+import npyscreen, curses, database
 
 class MyTestApp(npyscreen.NPSAppManaged):
     def onStart(self):
@@ -51,9 +51,9 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
 
 class MainGrid(npyscreen.GridColTitles):
     def create(self):
-        self.db_handler = databaseHandler.DatabaseHandler()
-        self.col_titles = self.db_handler.get_fake_columns()
-        self.all_values = self.db_handler.get_fake_values()
+        self.db = database.Database()
+        self.col_titles = self.db.get_fake_columns()
+        self.all_values = self.db.get_fake_values()
         self.values = self.all_values
     
     def get_values(self):
