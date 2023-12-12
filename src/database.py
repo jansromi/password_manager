@@ -3,6 +3,20 @@ import json
 import sqlite3
 
 class Database:
+    """
+    This class handles all database related operations.
+
+    Currently it also handles the creation of the database and the config file,
+    so later this should be moved to a separate class.
+
+    The database and config are created in the bin directory if they don't exist.
+
+    Class should be used as a context manager, ie.:
+        db = DbHandler()
+        with db:
+            db.insert_fake_data()
+            db.commit() 
+    """
     DB_NOT_FOUND = None
 
     def __init__(self):
@@ -60,10 +74,9 @@ class Database:
         if self.conn:
             self.conn.close()
 
-    def commit_and_close(self):
+    def commit(self):
         if self.conn:
             self.conn.commit()
-            self.conn.close()
 
     def create_tables(self):
         with self:
