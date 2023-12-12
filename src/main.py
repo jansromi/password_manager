@@ -6,6 +6,7 @@ import npyscreen, curses, databaseHandler
 class MyTestApp(npyscreen.NPSAppManaged):
     def onStart(self):
         self.registerForm("MAIN", MainForm(cycle_widgets=True))
+        self.registerForm("SETTINGS", SettingsForm(cycle_widgets=True))
 
 class MainForm(npyscreen.FormBaseNewWithMenus):
     def create(self):
@@ -15,7 +16,7 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         self.search_field = self.add(SearchBar, name="Search:", value="")
         # The menu bar
         self.m1 = self.add_menu(name="Main Menu", shortcut="^X")
-        self.m1.addItem(text="Debug", onSelect=self.debug)
+        self.m1.addItem(text="Settings", onSelect=self.switch_to_settings)
         self.m1.addItem(text="Close Menu", onSelect=self.close_menu, shortcut="c")
         self.m1.addItem(text="Exit Application", onSelect=self.exit_application, shortcut="e")
 
@@ -43,12 +44,10 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
     def close_menu(self):
         self.adjust_widgets()
 
-    def debug(self, input):
+    def switch_to_settings(self):
         curses.beep()
+        self.parentApp.switchForm("SETTINGS")
 
-class SettingForm(npyscreen.FormBaseNewWithMenus):
-    def create(self):
-        pass
 
 class MainGrid(npyscreen.GridColTitles):
     def create(self):
@@ -72,6 +71,25 @@ class SearchBar(npyscreen.TitleText):
     def when_value_edited(self):
         self.parent.parentApp.getForm("MAIN").filter_values(self.value)
     
+class SettingsForm(npyscreen.FormBaseNewWithMenus):
+    def create(self):
+        self.m1 = self.add_menu(name="Main Menu", shortcut="^X")
+        self.m1.addItem(text="Main View", onSelect=self.switch_to_main_view)
+        self.m1.addItem(text="Close Menu", onSelect=self.close_menu, shortcut="c")
+        self.m1.addItem(text="Exit Application", onSelect=self.exit_application, shortcut="e")
+        self.add(npyscreen.TitleText, name="Text:", value="This is the settings view")
+
+    def switch_to_main_view(self):
+        self.parentApp.switchForm("MAIN")
+
+    def exit_application(self):
+        self.parentApp.setNextForm(None)
+        self.editing = False
+        self.parentApp.switchFormNow()
+
+    def close_menu(self):
+        self.adjust_widgets()
+
 def main():
     TA = MyTestApp()
     TA.run()
