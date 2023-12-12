@@ -2,6 +2,24 @@ import npyscreen, curses
 from components.main_grid import MainGrid
 
 class MainForm(npyscreen.FormBaseNewWithMenus):
+    """
+    This class represents the main view form.
+
+    Attributes:
+        search_field (SearchBar): The search bar widget.
+        m1 (Menu): The main menu.
+        grid (MainGrid): The main grid widget.
+        button (ButtonPress): The button widget. Currently just a debug tool.
+
+    Methods:
+        create(): Creates the main view form.
+        filter_values(input): Filters grid values based on the input in the search field.
+        button_pressed(): Handles the button press event.
+        exit_application(): Exits the application.
+        close_menu(): Closes the menu.
+        switch_to_settings(): Switches to the settings form.
+    """
+
     def create(self):
         """
         Creates the main view form.
@@ -19,7 +37,12 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         self.button = self.add(npyscreen.ButtonPress, name="Nappi", when_pressed_function=self.button_pressed)
 
     def filter_values(self, input):
-        """Filters grid values based on the input in the search field"""
+        """
+        Filters grid values based on the input in the search field.
+
+        Args:
+            input (str): The input in the search field.
+        """
         search_text = input.lower()
         all_values = self.grid.get_values()
         #compare to first column values
@@ -27,6 +50,11 @@ class MainForm(npyscreen.FormBaseNewWithMenus):
         self.grid.update_values(new_values)
 
     def button_pressed(self):
+        """
+        Handles the button press event.
+        """
+        # Add your code here to handle the button press event
+        pass
         npyscreen.notify_confirm(self.search_field.value, "Information")
 
     def exit_application(self):
