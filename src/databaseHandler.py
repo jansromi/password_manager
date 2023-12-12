@@ -1,10 +1,11 @@
 import sqlite3
 
 class DatabaseHandler:
-    def __init__(self, db_path):
-        self.db_path = db_path
-        self.conn = None
-        self.cursor = None
+    def __init__(self):
+        #self.db_path = db_path
+        #self.conn = None
+        #self.cursor = None
+        pass
 
     def connect(self):
         self.conn = sqlite3.connect(self.db_path)
@@ -39,9 +40,12 @@ class DatabaseHandler:
         self.conn.commit()
         self.conn.close()
 
-# Usage example
-db_handler = DatabaseHandler('../bin/password_manager.db')
-db_handler.connect()
-db_handler.create_user_table()
-db_handler.create_password_table()
-db_handler.commit_and_close()
+    def get_fake_columns(self):
+        return ['application_name', 'username', 'password']
+
+    def get_fake_values(self):
+        return [
+            ('Facebook', 'IamRoba', '12345'),
+            ('Instagram', 'Roba', '54321'),
+            ('Steam', 'Roba', '12345')]
+
