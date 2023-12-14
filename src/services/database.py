@@ -104,6 +104,12 @@ class Database:
             ''')
             self.conn.commit()
 
+    def get_column_titles(self):
+        return ['application name', 'username', 'password', 'modified date']
+    
+    def get_columns(self):
+        pass
+
     def insert_fake_data(self):
         self.cursor.execute('''
             INSERT INTO User (username, pword_hash, salt, creation_date, modified_date)
@@ -119,8 +125,8 @@ class Database:
         ''')
     
     def get_fake_columns(self):
-        return ['application_name', 'username', 'password']
-
+        return ['Application name', 'Username', '***********']
+    
     def get_fake_values(self):
         return [
             ('Facebook', 'IamRoba', '12345'),
@@ -129,7 +135,6 @@ class Database:
 
 
 # Example usage
-""" db = DbHandler()
+db = Database()
 with db:
-    db.insert_fake_data()
-    db.commit_and_close() """
+    print(db.get_columns())
