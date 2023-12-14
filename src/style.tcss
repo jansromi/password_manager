@@ -1,0 +1,73 @@
+#search {
+    background: #333;
+    color: white;
+    border: round lightskyblue;
+    width: 33;
+    margin-left: 2;
+}
+
+#top_container {
+    background: #333;
+    align: left middle;
+
+}
+
+#bottom_container {
+    background: #111;
+    height: 85%;
+    align: center middle;
+}
+
+#table {
+    height: 100%;
+    width: 100%;
+}
+
+Sidebar {
+    width: 40;
+    background: $panel;
+    transition: offset 300ms in_out_cubic;
+    layer: overlay;
+
+}
+
+Sidebar:focus-within {
+    offset: 0 0 !important;
+}
+
+Sidebar.-hidden {
+    offset-x: -100%;
+    display: none;
+}
+
+Sidebar.-active {
+}
+
+Sidebar Title {
+    background: $boost;
+    color: $secondary;
+    padding: 2 4;
+    border-right: vkey $background;
+    dock: top;
+    text-align: center;
+    text-style: bold;
+}
+
+ListView > ListItem {
+    color: $secondary;
+    padding: 1 2;
+}
+
+Screen {
+    layers: base overlay notes notifications;
+    overflow: hidden;
+}
+
+
+.pad {
+    margin: 1 0;
+}
+
+.datatable--header {
+    background: blue;
+}
