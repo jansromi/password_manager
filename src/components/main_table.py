@@ -1,7 +1,8 @@
-import npyscreen
+from textual.widgets import DataTable
+
 import services.database as database
 
-class MainGrid(npyscreen.GridColTitles):
+class MainTable(DataTable):
     """
     A custom grid component for displaying data.
 
@@ -17,11 +18,11 @@ class MainGrid(npyscreen.GridColTitles):
         update_values(values): Updates the values to be displayed and refreshes the grid.
     """
 
-    def create(self):
+    def on_mount(self):
         self.db = database.Database()
-        self.col_titles = self.db.get_fake_columns()
-        self.all_values = self.db.get_fake_values()
-        self.values = self.all_values
+        columns = self.db.get_fake_columns()
+        self.add_columns(*columns)
+        self.add_rows(self.db.get_fake_values())
     
     def get_values(self):
         return self.all_values

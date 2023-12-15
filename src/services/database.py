@@ -125,16 +125,14 @@ class Database:
         ''')
     
     def get_fake_columns(self):
-        return ['Application name', 'Username', '***********']
-    
+        return ["application name", "username", "created", "last updated"]
+
     def get_fake_values(self):
         return [
-            ('Facebook', 'IamRoba', '12345'),
-            ('Instagram', 'Roba', '54321'),
-            ('Steam', 'Roba', '12345')]
-
-
-# Example usage
-db = Database()
-with db:
-    print(db.get_columns())
+            ("Github", "jansromi", "02.12.2021", "19.11.2023"),
+            ("Google", "meikanmaili@gmail.com", "11.05.2023", "1.12.2023"),
+            ("Facebook", "meikanmaili@gmail.com", "11.05.2023", "1.12.2023"),
+            ("Instagram", "roba", "5.8.2023", "13.9.2023"),
+            ("Twitter", "robator", "14.9.2023", "14.9.2023"),
+            ("Twitch", "feikkitili@sapo.fi", "21.7.2023", "6.11.2023")
+            ]

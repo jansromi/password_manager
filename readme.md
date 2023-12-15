@@ -1,7 +1,7 @@
 ## Stack
 
 - **Database:** SQLite3
-- **User Interface Library:** npyscreen
+- **Text-based User Interface** textual
 
 ---
 

@@ -1,18 +1,36 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import npyscreen
-import components.main_form as MainForm
-import components.settings_form as SettingsForm
+from textual.app import App, ComposeResult
+from textual.binding import Binding
 
-class PasswordManagerApp(npyscreen.NPSAppManaged):
-    def onStart(self):
-        self.registerForm("MAIN", MainForm.MainForm(cycle_widgets=True))
-        self.registerForm("SETTINGS", SettingsForm.SettingsForm(cycle_widgets=True))
+import components.main_screen as MainScreen
+import components.settings_screen as SettingsScreen
 
-def main():
-    PMA = PasswordManagerApp()
-    PMA.run()
+class PasswordManager(App):
+    CSS_PATH = "style.tcss"
+    MENU_ACTIVATED = False
+    BINDINGS = [
+        Binding(key="ctrl+t", action="show_menu", description="Menu"),
+        Binding(key="ctrl+q", action="debug", description="Debug")
+    ]
 
-if __name__ == '__main__':
-    main()
+    MODES = {
+        "main": MainScreen.MainScreen,
+        "settings" : SettingsScreen.SettingsScreen
+    }
+
+    def on_mount(self) -> None:
+        self.switch_mode("main")
+
+    def action_show_menu(self) -> None:
+        if self.current_mode == "main":
+            self.MODES["main"].action_show_menu(self)
+            return
+        if self.current_mode == "settings":
+            self.MODES["settings"].action_show_menu(self)
+            return
+        
+if __name__ == "__main__":
+    app = PasswordManager()
+    app.run()
