@@ -6,8 +6,10 @@ from textual.binding import Binding
 
 import components.main_screen as MainScreen
 import components.settings_screen as SettingsScreen
+import password_manager as PasswordManager
 
 class PasswordManager(App):
+    PWM = PasswordManager.PasswordManager()
     CSS_PATH = "style.tcss"
     MENU_ACTIVATED = False
     BINDINGS = [
