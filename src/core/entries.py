@@ -1,5 +1,6 @@
 from utils import gen_fake_data as gen
 from core.entry import Entry
+
 class Entries:
     
     def __init__(self):
