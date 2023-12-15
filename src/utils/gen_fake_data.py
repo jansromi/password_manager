@@ -1,5 +1,3 @@
-# generate_data.py
-
 import sys
 from faker import Faker
 
