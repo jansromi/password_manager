@@ -16,4 +16,7 @@ class Entry:
             'creation_date': self._creation_date,
             'modified_date': self._modified_date
         }
+    
+    def get_id(self):
+        return self._id
 
