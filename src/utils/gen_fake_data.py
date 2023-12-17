@@ -6,13 +6,16 @@ fake = Faker()
 def generate_fake_data(num_rows):
     fake_data_list = []
 
+    id = 1
     for _ in range(num_rows):
+        id += 1
         app_name = fake.url()
         username = fake.user_name()
         creation_date = fake.date_between(start_date='-1y', end_date='today')
         modified_date = fake.date_between(start_date=creation_date, end_date='today')
 
         fake_data_list.append({
+            'id': id,
             'app_name': app_name,
             'username': username,
             'creation_date': creation_date.strftime('%d.%m.%Y'),

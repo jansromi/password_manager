@@ -5,6 +5,7 @@ from src.core.entry import Entry
 def test_entry_initialization():
 
     entrydata = {
+        'id': '1', 
         'app_name': 'Github',
         'username': 'jansromi',
         'creation_date': '13.12.2023',
