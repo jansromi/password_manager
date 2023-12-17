@@ -1,7 +1,7 @@
 ## Stack
 
 - **Database:** SQLite3
-- **Text-based User Interface** textual
+- **Text-based User Interface:** Textual
 
 ---
 
