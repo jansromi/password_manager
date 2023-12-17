@@ -8,7 +8,7 @@ import components.main_screen as MainScreen
 import components.settings_screen as SettingsScreen
 import core.password_manager as pwm
 
-class PasswordManager(App):
+class PasswordManagerApp(App):
     PWM = pwm.PasswordManager()
     CSS_PATH = "style.tcss"
     MENU_ACTIVATED = False
@@ -34,5 +34,5 @@ class PasswordManager(App):
             return
         
 if __name__ == "__main__":
-    app = PasswordManager()
+    app = PasswordManagerApp()
     app.run()
