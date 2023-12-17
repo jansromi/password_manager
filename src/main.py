@@ -6,7 +6,7 @@ from textual.binding import Binding
 
 import components.main_screen as MainScreen
 import components.settings_screen as SettingsScreen
-import password_manager as pwm
+import core.password_manager as pwm
 
 class PasswordManager(App):
     PWM = pwm.PasswordManager()
