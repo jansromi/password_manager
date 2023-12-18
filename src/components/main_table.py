@@ -7,15 +7,18 @@ class MainTable(DataTable):
     A custom grid component for displaying data.
 
     Attributes:
-        db (database.Database): An instance of the database class.
-        col_titles (list): A list of column titles.
-        all_values (list): A list of all values.
-        values (list): A list of current values to be displayed.
+        pwm: The passwordmanager instance, which is used for calls with database.
+        column_labels: The column titles.
+        original_rows: The original values.
+        filtered_rows: The values that are currently being displayed.
+        column_keys: The column keys.
+        row_keys: The row keys.
 
     Methods:
-        create(): Initializes the grid by setting up the database, column titles, and values.
-        get_values(): Returns all values.
-        update_values(values): Updates the values to be displayed and refreshes the grid.
+        on_mount: Called when the component is mounted.
+        filter_table: Filters the table based on the given string.
+        on_data_table_row_selected: Called when a row is selected.
+        update_values: Sets the values to be displayed and refreshes the grid.
     """
 
     def on_mount(self):
@@ -39,7 +42,6 @@ class MainTable(DataTable):
 
     def on_data_table_row_selected(self, event):
         print("row selected")
-        print(event.row)
 
     def update_values(self, values):
         """
