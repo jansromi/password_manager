@@ -1,4 +1,4 @@
-from core.entries import Entries
+from src.core.entries import Entries
 
 class PasswordManager:
     

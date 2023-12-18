@@ -1,6 +1,5 @@
 from textual.widgets import DataTable
 
-import services.database as database
 
 class MainTable(DataTable):
     """

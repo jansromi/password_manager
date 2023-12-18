@@ -4,12 +4,12 @@
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 
-import components.main_screen as MainScreen
-import components.settings_screen as SettingsScreen
-import core.password_manager as pwm
+from src.components.main_screen import MainScreen
+from src.components.settings_screen import SettingsScreen
+from src.core.password_manager import PasswordManager as pwm
 
 class PasswordManagerApp(App):
-    PWM = pwm.PasswordManager()
+    PWM = pwm()
     CSS_PATH = "style.tcss"
     MENU_ACTIVATED = False
     BINDINGS = [
@@ -18,8 +18,8 @@ class PasswordManagerApp(App):
     ]
 
     MODES = {
-        "main": MainScreen.MainScreen,
-        "settings" : SettingsScreen.SettingsScreen
+        "main": MainScreen,
+        "settings" : SettingsScreen
     }
 
     def on_mount(self) -> None:
