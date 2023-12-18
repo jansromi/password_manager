@@ -1,5 +1,4 @@
 from datetime import datetime
-import pytest
 from src.core.entry import Entry
 
 def test_entry_initialization():
