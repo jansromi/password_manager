@@ -16,3 +16,4 @@ def test_entry_initialization():
     assert result['creation_date'] == datetime.strptime('13.12.2023', "%d.%m.%Y")
     assert result['modified_date'] == datetime.strptime('13.12.2023', "%d.%m.%Y")
 
+test_entry_initialization()

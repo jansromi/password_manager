@@ -1,10 +1,26 @@
+from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Vertical
 from textual.widgets import Header, Input, DataTable, Footer, ListView
 from textual.screen import Screen
+from textual.reactive import reactive
 
 from components.sidebar import Sidebar
 from components.main_table import MainTable
+
+class Searchbar(Input):
+    filter = ""
+
+    def watch_input(self, value):
+        print("value changed")
+        #self.parent.query_one(MainTable).filter(value)
+
+    @on(Input.Changed)
+    def on_input_changed(self, event):
+        table = self.app.query_one(MainTable)
+        updated_rows = table.filter_table(event.value)
+        table.update_values(updated_rows)
+        
 
 class MainScreen(Screen):
     AUTO_FOCUS = "#search"
@@ -14,7 +30,8 @@ class MainScreen(Screen):
         yield Container(
             Sidebar(classes="-hidden"),
             Vertical(
-                Vertical(Input("Search", id="search"), id="top_container"),
+                Vertical(Searchbar(id="search"), id="top_container"),
+                #Vertical(Input("Search", id="search"), id="top_container"),
                 Vertical(MainTable(id="table", cursor_type="row"), id="bottom_container")
             ),
         )

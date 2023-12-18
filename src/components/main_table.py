@@ -19,14 +19,32 @@ class MainTable(DataTable):
     """
 
     def on_mount(self):
-        self.db = database.Database()
-        columns = self.db.get_fake_columns()
-        self.add_columns(*columns)
-        self.add_rows(self.db.get_fake_values())
+        self.pwm = self.app.PWM
+        self.column_labels = self.pwm.get_entry_columns()
+        self.original_rows = self.pwm.get_entries()
+        self.filtered_rows = self.original_rows
+        self.column_keys = self.add_columns(*self.column_labels)
+        self.row_keys = self.add_rows(self.filtered_rows)
     
-    def get_values(self):
-        return self.all_values
+    def filter_table(self, filter):
+        """
+        Returns a list of rows that contain the filter string.
+        """
+        filtered_array = [
+            item
+            for item in self.original_rows
+            if filter.lower() in item[0].lower() or filter.lower() in item[1].lower()
+        ]
+        return filtered_array
+
+    def on_data_table_row_selected(self, event):
+        print("row selected")
+        print(event.row)
 
     def update_values(self, values):
-        self.values = values
-        self.update()
+        """
+        Sets the values to be displayed and refreshes the grid.
+        """
+        self.clear()
+        self.filtered_rows = values
+        self.add_rows(self.filtered_rows)

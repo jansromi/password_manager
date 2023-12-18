@@ -19,4 +19,12 @@ class Entry:
     
     def get_id(self):
         return self._id
+    
+    def to_tuple(self):
+        return (
+            self._application_name,
+            self._username,
+            self._creation_date,
+            self._modified_date
+        )
 

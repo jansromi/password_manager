@@ -5,6 +5,7 @@ class Entries:
     
     def __init__(self):
         self._entries = []
+        self.set_fake_data()
 
     def set_fake_data(self):
         data = generate_fake_data(10)
@@ -34,3 +35,9 @@ class Entries:
         if not isinstance(entry, dict):
             raise TypeError("Entry must be a dict")
         self._entries.append(Entry(**entry))
+
+    def get_columns(self):
+        return ["application name", "username", "created", "last updated"]
+    
+    def get_entries(self):
+        return [entry.to_tuple() for entry in self._entries]
