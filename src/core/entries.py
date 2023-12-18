@@ -15,7 +15,22 @@ class Entries:
         for entry in self._entries:
             if entry.get_id() == index:
                 return entry.get_entry()
-        return None
+        raise ValueError(f"Entry with index {index} not found")
     
-    def add_entry(self, entry):
+    def add_entry(self, entry: Entry):
+        """
+        Add an entry to the entries list
+        @param entry: Entry-object
+        """
+        if not isinstance(entry, Entry):
+            raise TypeError("Entry must be an Entry-object")
         self._entries.append(entry)
+
+    def add_entry_from_dict(self, entry: dict):
+        """
+        Add an entry to the entries list
+        @param entry: dict
+        """
+        if not isinstance(entry, dict):
+            raise TypeError("Entry must be a dict")
+        self._entries.append(Entry(**entry))
