@@ -2,7 +2,6 @@ from datetime import datetime
 from src.core.entry import Entry
 
 def test_entry_initialization():
-
     entrydata = {
         'id': '1', 
         'app_name': 'Github',
