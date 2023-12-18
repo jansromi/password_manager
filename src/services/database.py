@@ -133,6 +133,7 @@ class Database:
         '''
         self.cursor.execute('''
             SELECT
+                Password.id,
                 Password.application_name,
                 User.username,
                 strftime('%d-%m-%Y', Password.creation_date) AS password_creation_date,
@@ -146,10 +147,11 @@ class Database:
         result = self.cursor.fetchall()
         entries_data = [
             {
-                'app_name': row[0],
-                'username': row[1],
-                'creation_date': row[2],
-                'modified_date': row[3]
+                'id': row[0],
+                'app_name': row[1],
+                'username': row[2],
+                'creation_date': row[3],
+                'modified_date': row[4]
             }
             for row in result
         ]

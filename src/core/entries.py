@@ -3,18 +3,22 @@ from src.core.entry import Entry
 from src.services.database import Database
 class Entries:
     
-    def __init__(self):
+    def __init__(self, testing=False):
         self._entries = []
-        self._db = Database()
-        result = None
-        with self._db:
-            self._db.insert_fake_data()
-            result = self._db.get_all_entries()
-            for row in result:
-                print(row)
-                self._entries.append(Entry(**row))
+        if not testing:
+            self._db = Database()
+            result = None
+            with self._db:
+                self._db.insert_fake_data()
+                result = self._db.get_all_entries()
+                for row in result:
+                    self._entries.append(Entry(**row))
+        else:
+            pass
 
-    def get_entry(self, index):
+    def get_entry(self, index: int):
+        if not isinstance(index, int):
+            raise TypeError("Index must be an integer")
         for entry in self._entries:
             if entry.get_id() == index:
                 return entry.get_entry()

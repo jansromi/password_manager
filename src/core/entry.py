@@ -2,7 +2,10 @@ from datetime import datetime
 
 class Entry:
     def __init__(self, **kwargs):
-        self._id = kwargs.get('id', '')
+        try:
+            self._id = int(kwargs.get('id', ''))
+        except ValueError:
+            raise TypeError("id must be an integer")
         self._application_name = kwargs.get('app_name', '')
         self._username = kwargs.get('username', '')
         self._creation_date = datetime.strptime(kwargs.get('creation_date', ''), "%d-%m-%Y")
