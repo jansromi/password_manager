@@ -17,5 +17,16 @@ class Entries:
                 return entry.get_entry()
         return None
     
-    def add_entry(self, entry):
+    def add_entry(self, entry: Entry):
+        """
+        Add an entry to the entries list
+        @param entry: Entry-object
+        """
         self._entries.append(entry)
+
+    def add_entry_from_dict(self, entry: dict):
+        """
+        Add an entry to the entries list
+        @param entry: dict
+        """
+        self._entries.append(Entry(**entry))
