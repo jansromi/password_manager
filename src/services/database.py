@@ -106,33 +106,51 @@ class Database:
 
     def get_column_titles(self):
         return ['application name', 'username', 'password', 'modified date']
-    
-    def get_columns(self):
-        pass
 
     def insert_fake_data(self):
         self.cursor.execute('''
-            INSERT INTO User (username, pword_hash, salt, creation_date, modified_date)
-            VALUES ("Roba", "poary442jbqi", "08vc2xlys3", "12.12.2023", "12.12.2023"),
-                    ("Jansromi", "1avm38gkj24", "08vc2xlys3", "12.12.2023", "12.12.2023"),
-                    ("Jansromi2", "1avm38gkj24", "08vc2xlys3", "12.12.2023", "12.12.2023")
+        INSERT INTO User (username, pword_hash, salt, creation_date, modified_date)
+        VALUES ("Roba", "poary442jbqi", "08vc2xlys3", "2023-12-12", "2023-12-12"),
+                ("Jansromi", "1avm38gkj24", "08vc2xlys3", "2023-12-12", "2023-12-12"),
+                ("rrobe", "1avm38gkj24", "08vc2xlys3", "2023-12-12", "2023-12-12")
         ''')
         self.cursor.execute('''
-            INSERT INTO Password (user_id, application_name, pword_hash, creation_date, modified_date)
-            VALUES (1, "facebook", "1avm38gkj24", "12.12.2023", "12.12.2023"),
-                    (2, "twitter", "1avm38gkj24", "12.12.2023", "12.12.2023"),
-                    (1, "instagram", "1avm38gkj24", "12.12.2023", "12.12.2023")
+        INSERT INTO Password (user_id, application_name, pword_hash, creation_date, modified_date)
+        VALUES (1, "facebook", "1avm38gkj24", "2023-12-12", "2023-12-12"),
+                (2, "twitter", "1avm38gkj24", "2023-12-12", "2023-12-12"),
+                (1, "instagram", "1avm38gkj24", "2023-12-12", "2023-12-12"),
+                (3, "twitch", "1avm38gkj24", "2023-12-12", "2023-12-12"),
+                (1, "github", "1avm38gkj24", "2023-12-12", "2023-12-12"),
+                (2, "google", "1avm38gkj24", "2023-12-12", "2023-12-12")
         ''')
-    
-    def get_fake_columns(self):
-        return ["application name", "username", "created", "last updated"]
 
-    def get_fake_values(self):
-        return [
-            ("Github", "jansromi", "02.12.2021", "19.11.2023"),
-            ("Google", "meikanmaili@gmail.com", "11.05.2023", "1.12.2023"),
-            ("Facebook", "meikanmaili@gmail.com", "11.05.2023", "1.12.2023"),
-            ("Instagram", "roba", "5.8.2023", "13.9.2023"),
-            ("Twitter", "robator", "14.9.2023", "14.9.2023"),
-            ("Twitch", "feikkitili@sapo.fi", "21.7.2023", "6.11.2023")
-            ]
+
+    def get_all_entries(self):
+        '''
+        Return all found entries in the database
+
+        @return: list of tuples
+        '''
+        self.cursor.execute('''
+            SELECT
+                Password.application_name,
+                User.username,
+                strftime('%d-%m-%Y', Password.creation_date) AS password_creation_date,
+                strftime('%d-%m-%Y', Password.modified_date) AS password_modified_date
+            FROM
+                Password
+            JOIN
+                User ON Password.user_id = User.id;
+
+        ''')
+        result = self.cursor.fetchall()
+        entries_data = [
+            {
+                'app_name': row[0],
+                'username': row[1],
+                'creation_date': row[2],
+                'modified_date': row[3]
+            }
+            for row in result
+        ]
+        return entries_data

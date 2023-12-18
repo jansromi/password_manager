@@ -1,16 +1,18 @@
 from src.utils.gen_fake_data import generate_fake_data 
 from src.core.entry import Entry
-
+from src.services.database import Database
 class Entries:
     
     def __init__(self):
         self._entries = []
-        self.set_fake_data()
-
-    def set_fake_data(self):
-        data = generate_fake_data(10)
-        for row in data:
-            self._entries.append(Entry(**row))
+        self._db = Database()
+        result = None
+        with self._db:
+            self._db.insert_fake_data()
+            result = self._db.get_all_entries()
+            for row in result:
+                print(row)
+                self._entries.append(Entry(**row))
 
     def get_entry(self, index):
         for entry in self._entries:
@@ -37,7 +39,7 @@ class Entries:
         self._entries.append(Entry(**entry))
 
     def get_columns(self):
-        return ["application name", "username", "created", "last updated"]
+        return self._db.get_column_titles()
     
     def get_entries(self):
         return [entry.to_tuple() for entry in self._entries]
