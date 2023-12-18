@@ -104,6 +104,12 @@ class Database:
             ''')
             self.conn.commit()
 
+    def get_column_titles(self):
+        return ['application name', 'username', 'password', 'modified date']
+    
+    def get_columns(self):
+        pass
+
     def insert_fake_data(self):
         self.cursor.execute('''
             INSERT INTO User (username, pword_hash, salt, creation_date, modified_date)
@@ -130,10 +136,3 @@ class Database:
             ("Twitter", "robator", "14.9.2023", "14.9.2023"),
             ("Twitch", "feikkitili@sapo.fi", "21.7.2023", "6.11.2023")
             ]
-
-
-# Example usage
-""" db = DbHandler()
-with db:
-    db.insert_fake_data()
-    db.commit_and_close() """
