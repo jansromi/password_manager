@@ -20,7 +20,10 @@ class Searchbar(Input):
         table = self.app.query_one(MainTable)
         updated_rows = table.filter_table(event.value)
         table.update_values(updated_rows)
-        
+
+    def compose(self) -> ComposeResult:
+        self.border_title = "Search"
+        return super().compose()
 
 class MainScreen(Screen):
     AUTO_FOCUS = "#search"
