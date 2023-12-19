@@ -57,8 +57,3 @@ class MainScreen(Screen):
             # niin menee tyhmästi
             self.set_focus(self.query_one("#search"))
         
-
-    def on_mount(self) -> None:
-        table = self.query_one(DataTable)
-        #table.add_columns(*ROWS[0])
-        #table.add_rows(ROWS[1:])
