@@ -11,7 +11,7 @@ class LoginScreen(ModalScreen[bool]):
             Label("Username", classes="label"),
             Input(placeholder="Username", id="username_input"),
             Label("Password", classes="label"),
-            Input(placeholder="Password", id="password_input"),
+            Input(placeholder="Password", id="password_input", password=True),
             Container(
                 Button("Login", id="login_button"),
                 Button("Cancel", id="cancel_button")
