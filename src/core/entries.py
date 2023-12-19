@@ -1,4 +1,3 @@
-from src.utils.gen_fake_data import generate_fake_data 
 from src.core.entry import Entry
 from src.services.database import Database
 
