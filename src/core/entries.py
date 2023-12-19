@@ -1,20 +1,35 @@
-from src.utils.gen_fake_data import generate_fake_data 
 from src.core.entry import Entry
+from src.services.database import Database
 
 class Entries:
     
-    def __init__(self):
+    def __init__(self, testing=False):
+        """
+        Initialize the entries class
+
+        @param testing: if True, doesnt set up the database and makes testing easier
+        """
         self._entries = []
-        self.set_fake_data()
+        self._db = None
+        if not testing:
+            self._initialize_database()
 
-    def set_fake_data(self):
-        data = generate_fake_data(10)
-        for row in data:
-            self._entries.append(Entry(**row))
+    def _initialize_database(self):
+        self._db = Database()
+        with self._db:
+            self._db.insert_fake_data()
+            result = self._db.get_all_entries()
+            self._entries = [Entry(**row) for row in result]
 
-    def get_entry(self, index):
+    def get_entry(self, index: int) -> dict:
+        """
+        Iterate through the entries list and return the entry with the given index
+        @param index: int-index of the entry
+        """
+        if not isinstance(index, int):
+            raise TypeError("Index must be an integer")
         for entry in self._entries:
-            if entry.get_id() == index:
+            if entry.id == index:
                 return entry.get_entry()
         raise ValueError(f"Entry with index {index} not found")
     
@@ -37,7 +52,7 @@ class Entries:
         self._entries.append(Entry(**entry))
 
     def get_columns(self):
-        return ["application name", "username", "created", "last updated"]
+        return self._db.get_column_titles()
     
     def get_entries(self):
         return [entry.to_tuple() for entry in self._entries]

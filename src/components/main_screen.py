@@ -9,6 +9,7 @@ from src.components.sidebar import Sidebar
 from src.components.main_table import MainTable
 
 class Searchbar(Input):
+
     filter = ""
 
     def watch_input(self, value):
@@ -26,6 +27,7 @@ class Searchbar(Input):
         return super().compose()
 
 class MainScreen(Screen):
+
     AUTO_FOCUS = "#search"
 
     def compose(self) -> ComposeResult:

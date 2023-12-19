@@ -6,19 +6,19 @@ def test_entry_initialization():
         'id': '1', 
         'app_name': 'Github',
         'username': 'jansromi',
-        'creation_date': '13.12.2023',
-        'modified_date': '13.12.2023'
+        'creation_date': '13-12-2023',
+        'modified_date': '13-12-2023'
     }
     entry = Entry(**entrydata)
     result = entry.get_entry()
     assert result['app_name'] == 'Github'
     assert result['username'] == 'jansromi'
-    assert result['creation_date'] == datetime.strptime('13.12.2023', "%d.%m.%Y")
-    assert result['modified_date'] == datetime.strptime('13.12.2023', "%d.%m.%Y")
+    assert result['creation_date'] == datetime.strptime('13-12-2023', "%d-%m-%Y")
+    assert result['modified_date'] == datetime.strptime('13-12-2023', "%d-%m-%Y")
 
 def test_entry_to_tuple():
     entrydata = {
-        'id': '1', 
+        'id': 1, 
         'app_name': 'Github',
         'username': 'jansromi',
         'creation_date': '13.12.2023',
@@ -26,4 +26,4 @@ def test_entry_to_tuple():
     }
     entry = Entry(**entrydata)
     result = entry.to_tuple()
-    assert result == ('Github', 'jansromi', datetime.strptime('13.12.2023', "%d.%m.%Y"), datetime.strptime('13.12.2023', "%d.%m.%Y"))
+    assert result == ('Github', 'jansromi', datetime.strptime('13-12-2023', "%d-%m-%Y"), datetime.strptime('13-12-2023', "%d-%m-%Y"))

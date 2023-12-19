@@ -3,6 +3,7 @@ from textual.containers import Container
 from textual.widgets import ListView, ListItem, Label, Static
 
 class Sidebar(Container):
+    
     def compose(self) -> ComposeResult:
         yield Title("")
         yield MenuListView(id="sidebar_listview")

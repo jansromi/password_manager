@@ -2,9 +2,7 @@ from textual.app import ComposeResult
 from textual.containers import Container
 from textual.screen import Screen
 from textual.widgets import Header, Footer, ListView, ListItem, Label
-
 from src.components.sidebar import Sidebar
-
 
 class SettingsScreen(Screen):
     
@@ -20,7 +18,6 @@ class SettingsScreen(Screen):
             , id="settings_listview")
         )
         yield Footer()
-
 
     def action_show_menu(self) -> None:
         sidebar = self.query_one(Sidebar)
