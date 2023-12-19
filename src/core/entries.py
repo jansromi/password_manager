@@ -4,19 +4,28 @@ from src.services.database import Database
 class Entries:
     
     def __init__(self, testing=False):
-        self._entries = []
-        if not testing:
-            self._db = Database()
-            result = None
-            with self._db:
-                self._db.insert_fake_data()
-                result = self._db.get_all_entries()
-                for row in result:
-                    self._entries.append(Entry(**row))
-        else:
-            pass
+        """
+        Initialize the entries class
 
-    def get_entry(self, index: int):
+        @param testing: if True, doesnt set up the database and makes testing easier
+        """
+        self._entries = []
+        self._db = None
+        if not testing:
+            self._initialize_database()
+
+    def _initialize_database(self):
+        self._db = Database()
+        with self._db:
+            self._db.insert_fake_data()
+            result = self._db.get_all_entries()
+            self._entries = [Entry(**row) for row in result]
+
+    def get_entry(self, index: int) -> dict:
+        """
+        Iterate through the entries list and return the entry with the given index
+        @param index: int-index of the entry
+        """
         if not isinstance(index, int):
             raise TypeError("Index must be an integer")
         for entry in self._entries:
