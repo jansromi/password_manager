@@ -36,7 +36,6 @@ class MainScreen(Screen):
             Sidebar(classes="-hidden"),
             Vertical(
                 Vertical(Searchbar(id="search"), id="top_container"),
-                #Vertical(Input("Search", id="search"), id="top_container"),
                 Vertical(MainTable(id="table", cursor_type="row"), id="bottom_container")
             ),
         )

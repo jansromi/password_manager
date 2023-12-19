@@ -5,6 +5,11 @@ from src.main import PasswordManagerApp
 async def test_launch():
     app = PasswordManagerApp()
     async with app.run_test() as pilot:
+        # in login screen, skip it for now
+        await pilot.press("tab")
+        await pilot.press("tab")
+        await pilot.press("enter")
+
         # press a key
         await pilot.press("a")
         # value of the searchbar should be "a"

@@ -63,6 +63,27 @@ Screen {
     overflow: hidden;
 }
 
+LoginScreen {
+    height: auto;
+    margin: 1 0;
+    padding: 1 2;
+}
+
+LoginScreen Button {
+    margin: 5 1;    
+    width: 20%;
+}
+
+LoginScreen .label {
+    padding: 1 2;
+    text-align: right;
+}
+
+LoginScreen Container {
+    layout: horizontal;
+    align-horizontal: center;
+}
+
 
 .pad {
     margin: 1 0;
