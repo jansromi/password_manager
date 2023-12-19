@@ -1,6 +1,7 @@
 from datetime import datetime
 
 class Entry:
+    
     def __init__(self, **kwargs):
         try:
             self._id = int(kwargs.get('id', ''))

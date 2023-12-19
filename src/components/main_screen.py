@@ -9,6 +9,7 @@ from src.components.sidebar import Sidebar
 from src.components.main_table import MainTable
 
 class Searchbar(Input):
+
     filter = ""
 
     def watch_input(self, value):
@@ -20,9 +21,9 @@ class Searchbar(Input):
         table = self.app.query_one(MainTable)
         updated_rows = table.filter_table(event.value)
         table.update_values(updated_rows)
-        
 
 class MainScreen(Screen):
+
     AUTO_FOCUS = "#search"
 
     def compose(self) -> ComposeResult:
@@ -53,7 +54,6 @@ class MainScreen(Screen):
             # joten jos valittuna sidebarin ulkopuolinen asia,
             # niin menee tyhmästi
             self.set_focus(self.query_one("#search"))
-        
 
     def on_mount(self) -> None:
         table = self.query_one(DataTable)
