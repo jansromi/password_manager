@@ -21,8 +21,8 @@ def test_entry_to_tuple():
         'id': 1, 
         'app_name': 'Github',
         'username': 'jansromi',
-        'creation_date': '13.12.2023',
-        'modified_date': '13.12.2023'
+        'creation_date': '13-12-2023',
+        'modified_date': '13-12-2023'
     }
     entry = Entry(**entrydata)
     result = entry.to_tuple()
