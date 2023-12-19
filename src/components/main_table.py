@@ -1,6 +1,5 @@
 from textual.widgets import DataTable
 
-
 class MainTable(DataTable):
     """
     A custom grid component for displaying data.

@@ -21,7 +21,7 @@ class Entries:
         if not isinstance(index, int):
             raise TypeError("Index must be an integer")
         for entry in self._entries:
-            if entry.get_id() == index:
+            if entry.id == index:
                 return entry.get_entry()
         raise ValueError(f"Entry with index {index} not found")
     
