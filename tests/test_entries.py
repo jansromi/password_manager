@@ -4,7 +4,7 @@ from src.core.entry import Entry
 from src.core.entries import Entries
 
 def test_get_entry():
-    entries = Entries(testing=True)
+    entries = Entries(UseDb=False)
     entrydata = {
         'id': 1, 
         'app_name': 'Github',
@@ -21,7 +21,7 @@ def test_get_entry():
     assert result['modified_date'] == datetime.strptime('13-12-2023', "%d-%m-%Y")
 
 def test_get_entry_not_found():
-    entries = Entries(testing=True)
+    entries = Entries(UseDb=False)
     entrydata = {
         'id': 1, 
         'app_name': 'Github',
@@ -36,7 +36,7 @@ def test_get_entry_not_found():
         result = entries.get_entry(2)
 
 def test_add_entry_from_dict():
-    entries = Entries(testing=True)
+    entries = Entries(UseDb=False)
     entrydata = {
         'id': 1, 
         'app_name': 'Github',
@@ -52,7 +52,7 @@ def test_add_entry_from_dict():
     assert result['modified_date'] == datetime.strptime('13-12-2023', "%d-%m-%Y")
 
 def test_add_entry_wrong_type():
-    entries = Entries()
+    entries = Entries(UseDb=False)
     entrydata = {
         'id': 1, 
         'app_name': 'Github',

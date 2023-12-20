@@ -3,18 +3,18 @@ from src.services.database import Database
 
 class Entries:
     
-    def __init__(self, db_path: str, testing=False):
+    def __init__(self, db_path="", useDb=True):
         """
         Initialize the entries class
 
-        @param testing: if True, doesnt set up the database and makes testing easier
+        @param useDb: if True, setups data in the database
         """
         self._entries = []
         self._db = None
-        if not testing:
-            self._initialize_database(db_path)
+        if useDb:
+            self._setup_data(db_path)
 
-    def _initialize_database(self, db_path: str):
+    def _setup_data(self, db_path: str):
         self._db = Database(db_path)
         with self._db:
             self._db.insert_fake_data()
