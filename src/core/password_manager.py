@@ -1,10 +1,15 @@
+import sys
 from src.core.entries import Entries
-from src.services.app_config import AppConfig
+from src.services.app_config import AppConfig, AppRootNotFoundException
 
 class PasswordManager:
     
     def __init__(self):
-        self._app_config = AppConfig()
+        try:
+            self._app_config = AppConfig()
+        except AppRootNotFoundException:
+            # app not found, exit
+            sys.exit(1)
         self._entries = Entries()
 
     def get_entry_columns(self) -> list[str]:
