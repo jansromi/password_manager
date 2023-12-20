@@ -1,9 +1,11 @@
 from src.core.entries import Entries
+from src.services.app_config import AppConfig
 
 class PasswordManager:
     
     def __init__(self):
-        self._entries = Entries()
+        self._app_config = AppConfig()
+        self._entries = Entries(self._app_config.get_db_path())
 
     def get_entry_columns(self) -> list[str]:
         return self._entries.get_columns()

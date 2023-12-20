@@ -17,56 +17,16 @@ class Database:
             db.insert_fake_data()
             db.commit() 
     """
-    DB_NOT_FOUND = None
 
-    def __init__(self):
-        self.config = self.load_config()
-        self.db_path = os.path.join(self.config["db_directory"], self.config["db_name"])
-        if Database.DB_NOT_FOUND:
-            self.create_tables()
+    def __init__(self, db_path):
+        self.db_path = db_path
         self.conn = None
         self.cursor = None
-
-    def load_config(self):
-        """Loads the config file and returns the config as a dictionary"""
-        try:
-            # find path this code is executing in
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            # go two directories up, ie. projectroot.
-            # heavy assumpions here about project structure
-            # TODO: make this more robust (recursion?)
-            parent_dir = os.path.dirname(script_dir)
-            parent_dir = os.path.dirname(parent_dir)
-
-            # ie. projectroot/bin
-            bin_dir = os.path.join(parent_dir, 'bin')
-            # if there is a config-file, it should be in bin directory
-            config_path = os.path.join(bin_dir, 'config.json')
-            # if config doesn't exist, create it
-            if not os.path.exists(config_path):
-                config = {
-                    "db_directory": str(bin_dir),
-                    "db_name": "password_manager.db"
-                }
-                # create bin directory if it doesn't exist
-                if not os.path.exists(bin_dir):
-                    os.makedirs(bin_dir, exist_ok=True)
-                    # if bin directory didn't exist, there is also no database
-                    Database.DB_NOT_FOUND = True
-                # create config file
-                with open(config_path, 'x') as f:
-                    json.dump(config, f, indent=4)
-            with open(config_path, 'r') as f:
-                # and return it
-                return json.load(f)
-
-        except Exception as e:
-            print(f"Error loading config file: {e}")
             
     def __enter__(self):
         if not self.db_path:
-            # because init is called before __enter__, this should never happen
             pass
+        
         self.conn = sqlite3.connect(self.db_path)
         self.cursor = self.conn.cursor()
         return self
