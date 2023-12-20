@@ -1,15 +1,10 @@
 import os
-import json
 import sqlite3
+from src.services.app_config import AppConfig
 
 class Database:
     """
     This class handles all database related operations.
-
-    Currently it also handles the creation of the database and the config file,
-    so later this should be moved to a separate class.
-
-    The database and config are created in the bin directory if they don't exist.
 
     Class should be used as a context manager, ie.:
         db = DbHandler()
@@ -18,16 +13,28 @@ class Database:
             db.commit() 
     """
 
-    def __init__(self, db_path):
-        self.db_path = db_path
+    def __init__(self):
+        self._appconf = AppConfig()
+        try:
+            self._db_path = self._appconf.get_db_path()
+        except KeyError:
+            self._db_path = self.setup()
+            self.create_tables()
+            self._appconf.save_config_value(key="db_path", value=self._db_path)
         self.conn = None
         self.cursor = None
-            
+    
+    def setup(self):
+        bin_dir = self._appconf.get_config_value("bin_path")
+        db_path = os.path.join(bin_dir, "pwm.db")
+        self._appconf.save_config_value(key="db_path", value=db_path)
+        return db_path
+
     def __enter__(self):
-        if not self.db_path:
+        if not self._db_path:
             pass
-        
-        self.conn = sqlite3.connect(self.db_path)
+
+        self.conn = sqlite3.connect(self._db_path)
         self.cursor = self.conn.cursor()
         return self
     

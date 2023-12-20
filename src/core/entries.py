@@ -3,7 +3,7 @@ from src.services.database import Database
 
 class Entries:
     
-    def __init__(self, db_path="", useDb=True):
+    def __init__(self, useDb=True):
         """
         Initialize the entries class
 
@@ -12,10 +12,10 @@ class Entries:
         self._entries = []
         self._db = None
         if useDb:
-            self._setup_data(db_path)
+            self._setup_data()
 
-    def _setup_data(self, db_path: str):
-        self._db = Database(db_path)
+    def _setup_data(self):
+        self._db = Database()
         with self._db:
             self._db.insert_fake_data()
             result = self._db.get_all_entries()

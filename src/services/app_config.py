@@ -1,8 +1,5 @@
-
-
 import json
 import os
-from src.services.database import Database
 
 class AppConfig:
     """
@@ -15,12 +12,15 @@ class AppConfig:
             self._config = self._get_config()
         except AppRootNotFoundException:
             raise
+        except FileNotFoundError:
+            self.create_default_configuration()
 
         try:
             self._db_path = self.get_db_path()
         except KeyError:
-            self._setup_db()
-            self._db_path = self.get_db_path()
+            self._db_path = None
+
+        
 
     def _get_config(self) -> dict:
         """
@@ -32,7 +32,6 @@ class AppConfig:
         # try to find app root
         try:
             self._root_dir = AppConfig.find_password_manager_directory()
-
         except AppRootNotFoundException:
             # this can happen when project folder is named something else
             # than password manager
@@ -45,11 +44,7 @@ class AppConfig:
         try:
             return AppConfig.load_config(self._config_path)
         except FileNotFoundError:
-            # create config directory
-            self._create_directory(os.path.dirname(self._config_path))
-            # create config file with default values
-            self._create_config(self._config_path)
-            return AppConfig.load_config(self._config_path)        
+            raise     
 
     def save_config_value(self, key: str, value: str, path=None):
         """
@@ -60,7 +55,21 @@ class AppConfig:
         self._config[key] = value
         with open(self._config_path, 'w') as config_file:
             json.dump(self._config, config_file, indent=4)
+
+    def get_config_value(self, key: str) -> str:
+        try:
+            return self._config[key]
+        except KeyError:
+            raise KeyError(f"Config key {key} not found.")
         
+
+    def create_default_configuration(self):
+            self._create_directory(os.path.dirname(self._config_path))
+            self._create_config_file(self._config_path)
+            self._config = AppConfig.load_config(self._config_path)
+            bin_dir = os.path.join(self._root_dir, "bin")
+            self._create_directory(bin_dir)
+            self.save_config_value(key="bin_path", value=bin_dir)
 
     @staticmethod
     def find_password_manager_directory(starting_directory=".") -> str:
@@ -99,7 +108,7 @@ class AppConfig:
     def _create_directory(self, path: str):
         os.makedirs(path, exist_ok=True)
 
-    def _create_config(self, path: str):
+    def _create_config_file(self, path: str):
         with open(path, 'w') as config_file:
             json.dump({
                 "root_folder": self._root_dir
@@ -112,15 +121,6 @@ class AppConfig:
             return self._config["db_path"]
         except KeyError:
             raise KeyError("Database path not configured in config file.")
-        
-    def _setup_db(self):
-        bin_dir = os.path.join(self._root_dir, "bin")
-        self._create_directory(bin_dir)
-        db_path = os.path.join(bin_dir, "pwm.db")
-        self.save_config_value(key="db_path", value=db_path)
-        self._db = Database(db_path)
-        with self._db:
-            self._db.create_tables()
 
 
 
@@ -130,5 +130,5 @@ class AppRootNotFoundException(Exception):
     def __init__(self, message):
         self.message = message
 
-ap = AppConfig()
-print()
+if __name__ == "__main__":
+    config = AppConfig()

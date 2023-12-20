@@ -5,7 +5,7 @@ class PasswordManager:
     
     def __init__(self):
         self._app_config = AppConfig()
-        self._entries = Entries(self._app_config.get_db_path())
+        self._entries = Entries()
 
     def get_entry_columns(self) -> list[str]:
         return self._entries.get_columns()
