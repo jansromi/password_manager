@@ -1,7 +1,7 @@
 from datetime import datetime
 import pytest
-from src.core.entry import Entry
-from src.core.entries import Entries
+from core.entry import Entry
+from core.entries import Entries
 
 def test_get_entry():
     entries = Entries(useDb=False)

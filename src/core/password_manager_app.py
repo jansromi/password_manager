@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+import sys
+
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 
-from src.components.login_screen import LoginScreen
-from src.components.main_screen import MainScreen
-from src.components.settings_screen import SettingsScreen
-from src.core.password_manager import PasswordManager as pwm
+from components.login_screen import LoginScreen
+from components.main_screen import MainScreen
+from components.settings_screen import SettingsScreen
+from core.password_manager import PasswordManager as pwm
 
 class PasswordManagerApp(App):
     PWM = pwm()
-    CSS_PATH = "style.tcss"
+    CSS_PATH = "../components/style.tcss"
     MENU_ACTIVATED = False
     BINDINGS = [
         Binding(key="ctrl+t", action="show_menu", description="Menu"),

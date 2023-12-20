@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from src.services.app_config import AppConfig
+from services.app_config import AppConfig
 
 class Database:
     """

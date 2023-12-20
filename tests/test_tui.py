@@ -1,6 +1,6 @@
-from src.components.sidebar import Sidebar
-from src.components.main_screen import Searchbar
-from src.main import PasswordManagerApp
+from components.sidebar import Sidebar
+from components.main_screen import Searchbar
+from core.password_manager_app import PasswordManagerApp
 
 async def test_launch():
     app = PasswordManagerApp()

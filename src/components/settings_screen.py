@@ -2,7 +2,7 @@ from textual.app import ComposeResult
 from textual.containers import Container
 from textual.screen import Screen
 from textual.widgets import Header, Footer, ListView, ListItem, Label
-from src.components.sidebar import Sidebar
+from components.sidebar import Sidebar
 
 class SettingsScreen(Screen):
     

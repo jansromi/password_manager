@@ -1,6 +1,6 @@
 import sys
-from src.core.entries import Entries
-from src.services.app_config import AppConfig, AppRootNotFoundException
+from core.entries import Entries
+from services.app_config import AppConfig, AppRootNotFoundException
 
 class PasswordManager:
     

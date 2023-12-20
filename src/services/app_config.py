@@ -3,7 +3,7 @@ import os
 
 class AppConfig:
     """
-    
+    TODO: setup style config
     """
     CONFIG_PATH = "config/pwm_config.json"
 
@@ -121,8 +121,6 @@ class AppConfig:
             return self._config["db_path"]
         except KeyError:
             raise KeyError("Database path not configured in config file.")
-
-
 
 
 class AppRootNotFoundException(Exception):

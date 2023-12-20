@@ -5,8 +5,8 @@ from textual.widgets import Header, Input, DataTable, Footer, ListView
 from textual.screen import Screen
 from textual.reactive import reactive
 
-from src.components.sidebar import Sidebar
-from src.components.main_table import MainTable
+from components.sidebar import Sidebar
+from components.main_table import MainTable
 
 class Searchbar(Input):
 
