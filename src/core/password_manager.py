@@ -12,7 +12,7 @@ class PasswordManager:
             self._app_config = AppConfig()
         except AppRootNotFoundException:
             # app not found, exit
-            sys.exit(1)
+            sys.exit(4)
         database_initializer = DatabaseInitialzer(self._app_config.db_path)
         database_initializer.startup()
         db = Database(self._app_config.db_path)

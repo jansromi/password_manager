@@ -53,7 +53,10 @@ def copy_dir():
 
 @pytest.fixture
 def copy_wrongly_named_dir():
-
+    """
+    Fixture setups a wrongly name directory
+    and removes it after the test
+    """
     path_parts = TMP_DIR_PATH.split(os.path.sep)
     path_parts[-1] = "passwordmanager"
     bad_path = os.path.join("/", *path_parts)
