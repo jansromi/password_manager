@@ -1,8 +1,9 @@
 import sys
-from core.entries import Entries
-from services.app_config import AppConfig, AppRootNotFoundException
-from services.database import Database
-from services.database_initializer import DatabaseInitialzer
+
+from src.core.entries import Entries
+from src.services.app_config import AppConfig, AppRootNotFoundException
+from src.services.database import Database
+from src.services.database_initializer import DatabaseInitialzer
 
 class PasswordManager:
     

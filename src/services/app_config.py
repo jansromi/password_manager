@@ -1,6 +1,5 @@
 import json
 import os
-from services.database_initializer import DatabaseInitialzer
 
 class AppConfig:
     """

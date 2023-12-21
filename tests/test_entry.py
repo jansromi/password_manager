@@ -1,5 +1,6 @@
 from datetime import datetime
-from core.entry import Entry
+
+from src.core.entry import Entry
 
 def test_entry_initialization():
     entrydata = {

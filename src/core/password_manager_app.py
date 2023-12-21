@@ -1,15 +1,13 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import sys
-
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 
-from components.login_screen import LoginScreen
-from components.main_screen import MainScreen
-from components.settings_screen import SettingsScreen
-from core.password_manager import PasswordManager as pwm
+from src.components.login_screen import LoginScreen
+from src.components.main_screen import MainScreen
+from src.components.settings_screen import SettingsScreen
+from src.core.password_manager import PasswordManager as pwm
 
 class PasswordManagerApp(App):
     PWM = pwm()

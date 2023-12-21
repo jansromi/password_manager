@@ -1,5 +1,5 @@
-from core.entry import Entry
-from services.database import Database
+from src.core.entry import Entry
+from src.services.database import Database
 
 class Entries:
     

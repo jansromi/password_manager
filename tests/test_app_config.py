@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 import pytest
-from services.app_config import AppConfig
+from src.services.app_config import AppConfig
 
 """
 The purpose of this test file is to examine how the AppConfig class behaves in normal and exceptional situations.
