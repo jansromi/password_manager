@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 
@@ -10,9 +7,18 @@ from src.components.settings_screen import SettingsScreen
 from src.core.password_manager import PasswordManager as pwm
 
 class PasswordManagerApp(App):
-    PWM = pwm()
+    """
+    Class for launching the password manager text-based interface
+
+    On startup, launches the login screen.
+    On successful login, it initializes PWM-core class and launches the main screen.
+
+    @attr PWM: PasswordManager instance for actual logic
+    @attr CSS_PATH: Path to the CSS file
+    @attr BINDINGS: Keybindings for quick actions
+    """
+    PWM = None
     CSS_PATH = "../components/style.tcss"
-    MENU_ACTIVATED = False
     BINDINGS = [
         Binding(key="ctrl+t", action="show_menu", description="Menu"),
         Binding(key="ctrl+q", action="debug", description="Debug")
@@ -22,11 +28,18 @@ class PasswordManagerApp(App):
         self.action_request_login()
 
     def startup(self) -> None:
+        """
+        Add the pwm-instance, screens and switch to the main screen
+        """
+        self.PWM = pwm()
         self.add_mode("main", MainScreen)
         self.add_mode("settings", SettingsScreen)
         self.switch_mode("main")
 
     def action_show_menu(self) -> None:
+        """
+        Launches the sidebar menu
+        """
         if self.current_mode == "main":
             self.MODES["main"].action_show_menu(self)
             return
@@ -39,7 +52,6 @@ class PasswordManagerApp(App):
         Executes the login for the user.
 
         If login is successful, it will switch to the main mode.
-
         If login is not successful, it will notify the user and stay in the login mode.
         """
         def check_login(login: bool) -> None:
