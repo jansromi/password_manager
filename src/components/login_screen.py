@@ -4,7 +4,7 @@ from textual.widgets import Header, Button, Input, Label
 from textual.screen import ModalScreen
 
 class LoginScreen(ModalScreen[bool]):
-    
+    LOGIN_SCREEN_ID = "login"
     def compose(self) -> ComposeResult:
         yield Header()
         yield Vertical(

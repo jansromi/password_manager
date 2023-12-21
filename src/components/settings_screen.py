@@ -8,6 +8,7 @@ from src.components.sidebar import Sidebar
 class SettingsScreen(Screen):
     
     AUTO_FOCUS = "#settings_listview"
+    SETTINGS_SCREEN_ID = "settings"
 
     def compose(self) -> ComposeResult:
         yield Header()
