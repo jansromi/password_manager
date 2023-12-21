@@ -3,19 +3,25 @@ from services.database import Database
 
 class Entries:
     
-    def __init__(self, useDb=True):
+    def __init__(self, database_instance: Database = None, use_fake_data = False):
         """
         Initialize the entries class
 
         @param useDb: if True, setups data in the database
         """
         self._entries = []
-        self._db = None
-        if useDb:
+        if database_instance:
+            self._db = database_instance
+        else:
+            self._db = None
+
+        if use_fake_data:
             self._setup_data()
 
     def _setup_data(self):
-        self._db = Database()
+        if not self._db:
+            raise ValueError("Database not set")
+
         with self._db:
             self._db.insert_fake_data()
             result = self._db.get_all_entries()

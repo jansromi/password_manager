@@ -1,7 +1,6 @@
 import os
 import sqlite3
 from services.app_config import AppConfig
-
 class Database:
     """
     This class handles all database related operations.
@@ -13,27 +12,14 @@ class Database:
             db.commit() 
     """
 
-    def __init__(self):
-        self._appconf = AppConfig()
-        try:
-            self._db_path = self._appconf.get_db_path()
-        except KeyError:
-            self._db_path = self.setup()
-            self.create_tables()
-            self._appconf.save_config_value(key="db_path", value=self._db_path)
+    def __init__(self, db_path):
+        self._db_path = db_path
         self.conn = None
         self.cursor = None
-    
-    def setup(self):
-        bin_dir = self._appconf.get_config_value("bin_path")
-        db_path = os.path.join(bin_dir, "pwm.db")
-        self._appconf.save_config_value(key="db_path", value=db_path)
-        return db_path
 
     def __enter__(self):
         if not self._db_path:
-            pass
-
+            raise ValueError("Database path not set")
         self.conn = sqlite3.connect(self._db_path)
         self.cursor = self.conn.cursor()
         return self
@@ -44,31 +30,6 @@ class Database:
 
     def commit(self):
         if self.conn:
-            self.conn.commit()
-
-    def create_tables(self):
-        with self:
-            self.cursor.execute('''
-                CREATE TABLE IF NOT EXISTS User (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    username TEXT NOT NULL,
-                    pword_hash TEXT NOT NULL,
-                    salt TEXT NOT NULL,
-                    creation_date DATE NOT NULL,
-                    modified_date DATE NOT NULL
-                )
-            ''')
-            self.cursor.execute('''
-                CREATE TABLE IF NOT EXISTS Password (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    user_id INTEGER NOT NULL,
-                    application_name TEXT NOT NULL,
-                    pword_hash TEXT NOT NULL,
-                    creation_date DATE NOT NULL,
-                    modified_date DATE NOT NULL,
-                    FOREIGN KEY (user_id) REFERENCES User (id)
-                )
-            ''')
             self.conn.commit()
 
     def get_column_titles(self):

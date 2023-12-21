@@ -1,5 +1,6 @@
 import json
 import os
+from services.database_initializer import DatabaseInitialzer
 
 class AppConfig:
     """
@@ -16,11 +17,14 @@ class AppConfig:
             self.create_default_configuration()
 
         try:
+            # this means we have setup the db before
             self._db_path = self.get_db_path()
         except KeyError:
-            self._db_path = None
+            self._db_path = self._setup_database_path()
 
-        
+    @property
+    def db_path(self):
+        return self._db_path
 
     def _get_config(self) -> dict:
         """
@@ -39,7 +43,7 @@ class AppConfig:
         
         # config location is set at
         # password_manager/config/pwm_config.json
-        self._config_path = os.path.join(self._root_dir, "config/pwm_config.json")
+        self._config_path = os.path.join(self._root_dir, self.CONFIG_PATH)
 
         try:
             return AppConfig.load_config(self._config_path)
@@ -64,12 +68,25 @@ class AppConfig:
         
 
     def create_default_configuration(self):
+            """
+            Creates a configuration setup for Password Manager.
+
+            Creates a config file in password_manager/config/pwm_config.json
+            and creates a bin directory in the root folder
+            and saves it's path to the config file.
+            """
             self._create_directory(os.path.dirname(self._config_path))
             self._create_config_file(self._config_path)
             self._config = AppConfig.load_config(self._config_path)
             bin_dir = os.path.join(self._root_dir, "bin")
             self._create_directory(bin_dir)
             self.save_config_value(key="bin_path", value=bin_dir)
+
+    def _setup_database_path(self):
+        bin_dir = self.get_config_value("bin_path")
+        db_path = os.path.join(bin_dir, "pwm.db")
+        self.save_config_value(key="db_path", value=db_path)
+        return db_path
 
     @staticmethod
     def find_password_manager_directory(starting_directory=".") -> str:
@@ -123,7 +140,7 @@ class AppConfig:
             raise KeyError("Database path not configured in config file.")
 
 
-class AppRootNotFoundException(Exception):
+class AppRootNotFoundException(Exception):#
 
     def __init__(self, message):
         self.message = message

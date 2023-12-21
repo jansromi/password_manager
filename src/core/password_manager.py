@@ -1,6 +1,8 @@
 import sys
 from core.entries import Entries
 from services.app_config import AppConfig, AppRootNotFoundException
+from services.database import Database
+from services.database_initializer import DatabaseInitialzer
 
 class PasswordManager:
     
@@ -10,7 +12,10 @@ class PasswordManager:
         except AppRootNotFoundException:
             # app not found, exit
             sys.exit(1)
-        self._entries = Entries()
+        database_initializer = DatabaseInitialzer(self._app_config.db_path)
+        database_initializer.startup()
+        db = Database(self._app_config.db_path)
+        self._entries = Entries(database_instance=db, use_fake_data=True)
 
     def get_entry_columns(self) -> list[str]:
         return self._entries.get_columns()
