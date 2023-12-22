@@ -7,6 +7,8 @@ class AppConfig:
 
     On initialization, it tries to find the root directory of the application,
     and config file if it exists. If it does not exist, it creates a default config file.
+
+    @throws: AppRootNotFoundException if cannot determine app root
     """
     CONFIG_PATH = "config/pwm_config.json"
 
@@ -140,9 +142,9 @@ class AppConfig:
             return self._config_values["db_path"]
         except KeyError:
             raise KeyError("Database path not configured in config file.")
+        
 
-
-class AppRootNotFoundException(Exception):#
+class AppRootNotFoundException(Exception):
 
     def __init__(self, message):
         self.message = message
