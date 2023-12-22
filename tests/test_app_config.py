@@ -41,8 +41,8 @@ def test_app_config_setups_without_config(setup_temp_dir):
 
     result = subprocess.run(["python3", "src/services/app_config.py"], cwd=setup_temp_dir, capture_output=True, text=True)
 
-    assert os.path.isdir(os.path.join(setup_temp_dir, "bin")), "bin directory was not found"
-    assert os.path.isdir(os.path.join(setup_temp_dir, "config")), "config directory was not found"
+    assert os.path.isdir(os.path.join(setup_temp_dir, "bin")), "Expected AppConfig to create a 'bin' directory, but it was not found"
+    assert os.path.isdir(os.path.join(setup_temp_dir, "config")), "Expected AppConfig to create a 'config' directory, but it was not found"
 
     assert result.returncode == 0
     assert result.stdout == ""
