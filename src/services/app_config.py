@@ -3,13 +3,23 @@ import os
 
 class AppConfig:
     """
-    TODO: setup style config
+    This class is responsible for configuring the application.
+
+    On initialization, it tries to find the root directory of the application,
+    and config file if it exists. If it does not exist, it creates a default config file.
     """
     CONFIG_PATH = "config/pwm_config.json"
 
     def __init__(self):
         try:
-            self._config = self._get_config()
+            self._root_dir = self.find_password_manager_directory()
+        except AppRootNotFoundException:
+            raise
+        
+        self._absolute_config_path = os.path.join(self._root_dir, self.CONFIG_PATH)
+
+        try:
+            self._config_values = self._get_config_values()
         except AppRootNotFoundException:
             raise
         except FileNotFoundError:
@@ -25,27 +35,14 @@ class AppConfig:
     def db_path(self):
         return self._db_path
 
-    def _get_config(self) -> dict:
+    def _get_config_values(self) -> dict:
         """
         Loads the config file
 
         @return: config as dict
-        @throws: AppRootNotFoundException if cannot determine app root
         """
-        # try to find app root
         try:
-            self._root_dir = AppConfig.find_password_manager_directory()
-        except AppRootNotFoundException:
-            # this can happen when project folder is named something else
-            # than password manager
-            raise
-        
-        # config location is set at
-        # password_manager/config/pwm_config.json
-        self._config_path = os.path.join(self._root_dir, self.CONFIG_PATH)
-
-        try:
-            return AppConfig.load_config(self._config_path)
+            return AppConfig.load_config(self._absolute_config_path)
         except FileNotFoundError:
             raise     
 
@@ -54,14 +51,14 @@ class AppConfig:
         Saves a config value to the config file
         """
         if not path:
-            path = self._config_path
-        self._config[key] = value
-        with open(self._config_path, 'w') as config_file:
-            json.dump(self._config, config_file, indent=4)
+            path = self._absolute_config_path
+        self._config_values[key] = value
+        with open(self._absolute_config_path, 'w') as config_file:
+            json.dump(self._config_values, config_file, indent=4)
 
     def get_config_value(self, key: str) -> str:
         try:
-            return self._config[key]
+            return self._config_values[key]
         except KeyError:
             raise KeyError(f"Config key {key} not found.")
         
@@ -74,9 +71,9 @@ class AppConfig:
             and creates a bin directory in the root folder
             and saves it's path to the config file.
             """
-            self._create_directory(os.path.dirname(self._config_path))
-            self._create_config_file(self._config_path)
-            self._config = AppConfig.load_config(self._config_path)
+            self._create_directory(os.path.dirname(self._absolute_config_path))
+            self._create_config_file(self._absolute_config_path)
+            self._config_values = AppConfig.load_config(self._absolute_config_path)
             bin_dir = os.path.join(self._root_dir, "bin")
             self._create_directory(bin_dir)
             self.save_config_value(key="bin_path", value=bin_dir)
@@ -122,9 +119,15 @@ class AppConfig:
             raise FileNotFoundError(f"Could not find config file at {path}.")
 
     def _create_directory(self, path: str):
+        """
+        Creates a directory if it does not exist
+        """
         os.makedirs(path, exist_ok=True)
 
     def _create_config_file(self, path: str):
+        """
+        Generates a default config file.
+        """
         with open(path, 'w') as config_file:
             json.dump({
                 "root_folder": self._root_dir
@@ -134,7 +137,7 @@ class AppConfig:
             
     def get_db_path(self):
         try:
-            return self._config["db_path"]
+            return self._config_values["db_path"]
         except KeyError:
             raise KeyError("Database path not configured in config file.")
 

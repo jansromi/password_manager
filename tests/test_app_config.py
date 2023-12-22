@@ -77,6 +77,24 @@ def test_app_config_modified_directory_name(copy_wrongly_named_dir):
         # Feeling very sus about this assertion,
         # but have not figured out a better way to do it yet.
         assert "AppRootNotFoundException" in result.stderr, "AppRootNotFoundException not found in stderr"
+
+def test_app_config_setups_without_config(copy_dir):
+    """
+    Test if config app setups without config file and bin directory.
+    Deletes the config file and bin directory before the test.
+    AppConfig should create the config file and bin directory on 
+    initialization.
+    """
+    shutil.rmtree(os.path.join(copy_dir, "bin"))
+    shutil.rmtree(os.path.join(copy_dir, "config"))
+
+    result = subprocess.run(["python3", "src/services/app_config.py"], cwd=copy_dir, capture_output=True, text=True)
+
+    assert os.path.isdir(os.path.join(copy_dir, "bin")), "bin directory was not found"
+    assert os.path.isdir(os.path.join(copy_dir, "config")), "config directory was not found"
+
+    assert result.returncode == 0
+    assert result.stdout == ""
     
 
 
