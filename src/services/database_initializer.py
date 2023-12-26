@@ -1,6 +1,6 @@
 import sqlite3
 
-class DatabaseInitialzer:
+class DatabaseInitializer:
     tables = ["User", "Password"]
 
     def __init__(self, db_path):
