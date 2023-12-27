@@ -29,6 +29,7 @@ class Searchbar(Input):
 class MainScreen(Screen):
 
     AUTO_FOCUS = "#search"
+    MAINSCREEN_ID = "main"
 
     def compose(self) -> ComposeResult:
         yield Header()

@@ -8,6 +8,8 @@ The purpose of this test file is to examine how the AppConfig class behaves in n
 The reason for testing is the desire to understand whether the program can be gracefully shut down,
 for example, in scenarios where the root directory of the application is maliciously manipulated.
 
+To test this kind of behavior, we create a temporary directory and copy the project directory there.
+Then we run the program with a subprocess and check resulting output from exit codes, stdout and stderr.
 
 Author: jansromi
 Date: 20.12.2023
@@ -21,7 +23,10 @@ def test_app_config_execution(setup_temp_dir):
 def test_app_config_modified_directory_name(setup_misnamed_temp_dir):
         """
         Test if app raises AppRootNotFoundException
-        when wrong directory name is used
+        when wrong directory name is used.
+
+        It seems pytest.raises doesnt work here, when program is run as a subprocess,
+        so the result is confirmed from stderr
         """
         result = subprocess.run(["python3", "src/services/app_config.py"], cwd=setup_misnamed_temp_dir, capture_output=True, text=True)
         # Check if we have a correct exception in stderr.
