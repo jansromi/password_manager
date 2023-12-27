@@ -84,6 +84,12 @@ LoginScreen Container {
     align-horizontal: center;
 }
 
+#login_register_container {
+    background: blue;
+    align-horizontal: left;
+
+}
+
 
 .pad {
     margin: 1 0;
