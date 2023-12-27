@@ -29,10 +29,10 @@ class DatabaseInitializer:
                 CREATE TABLE IF NOT EXISTS User (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username TEXT NOT NULL,
-                    pword_hash TEXT NOT NULL,
-                    salt TEXT NOT NULL,
-                    creation_date DATE NOT NULL,
-                    modified_date DATE NOT NULL
+                    masterkey_hash TEXT NOT NULL,
+                    device_secret TEXT NOT NULL,
+                    creation_date DATE,
+                    modified_date DATE
                 )
             ''')
         cursor.execute('''
@@ -40,9 +40,9 @@ class DatabaseInitializer:
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_id INTEGER NOT NULL,
                     application_name TEXT NOT NULL,
-                    pword_hash TEXT NOT NULL,
-                    creation_date DATE NOT NULL,
-                    modified_date DATE NOT NULL,
+                    encrypted_password TEXT NOT NULL,
+                    creation_date DATE,
+                    modified_date DATE,
                     FOREIGN KEY (user_id) REFERENCES User (id)
                 )
             ''')
